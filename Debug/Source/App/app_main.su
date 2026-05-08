@@ -1,0 +1,6 @@
+../Source/App/app_main.c:53:6:app_main_init	8	static
+../Source/App/app_main.c:79:6:app_main_fsm	16	static
+../Source/App/app_main.c:88:13:app_button_handle	16	static
+../Source/App/app_main.c:146:13:app_sensor_handle	16	static
+../Source/App/app_main.c:189:13:app_fan_handle	16	static
+../Source/App/app_main.c:213:13:app_lcd_handle	72	static

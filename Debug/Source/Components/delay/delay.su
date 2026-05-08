@@ -1,0 +1,13 @@
+../Drivers/CMSIS/Include/core_cm4.h:1672:26:__NVIC_GetPriorityGrouping	4	static
+../Drivers/CMSIS/Include/core_cm4.h:1814:22:__NVIC_SetPriority	16	static
+../Drivers/CMSIS/Include/core_cm4.h:1861:26:NVIC_EncodePriority	40	static
+../Drivers/CMSIS/Include/core_cm4.h:2022:26:SysTick_Config	16	static
+../Source/Components/delay/delay.c:24:6:DELAY_Init	8	static
+../Source/Components/delay/delay.c:36:6:DELAY_IncTick	4	static
+../Source/Components/delay/delay.c:42:10:DELAY_GetTick	4	static
+../Source/Components/delay/delay.c:48:6:DELAY_ms	16	static
+../Source/Components/delay/delay.c:57:6:DELAY_us	24	static,ignoring_inline_asm
+../Source/Components/delay/delay.c:84:9:DELAY_IsExpired	16	static
+../Source/Components/delay/delay.c:94:13:DELAY_InitSysTick	16	static
+../Source/Components/delay/delay.c:114:13:DELAY_InitDWT	16	static,ignoring_inline_asm
+../Source/Components/delay/delay.c:138:13:DELAY_us_software	24	static,ignoring_inline_asm

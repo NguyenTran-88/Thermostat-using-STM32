@@ -1,0 +1,3 @@
+../Source/BSP/bsp_button.c:30:6:bsp_button_init	1
+../Source/BSP/bsp_button.c:42:6:bsp_button_exti_callback	13
+../Source/BSP/bsp_button.c:77:9:bsp_button_get_events	1

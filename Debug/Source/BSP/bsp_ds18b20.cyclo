@@ -1,0 +1,7 @@
+../Source/BSP/bsp_ds18b20.c:23:9:bsp_ds18b20_init	1
+../Source/BSP/bsp_ds18b20.c:28:9:bsp_ds18b20_request_sample	1
+../Source/BSP/bsp_ds18b20.c:32:6:bsp_ds18b20_process	1
+../Source/BSP/bsp_ds18b20.c:36:9:bsp_ds18b20_is_busy	1
+../Source/BSP/bsp_ds18b20.c:40:9:bsp_ds18b20_is_new_data_ready	1
+../Source/BSP/bsp_ds18b20.c:44:9:bsp_ds18b20_get_last_temp_int	1
+../Source/BSP/bsp_ds18b20.c:48:9:bsp_ds18b20_is_data_valid	1

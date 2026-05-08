@@ -1,0 +1,7 @@
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:881:22:LL_GPIO_SetOutputPin	1
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_gpio.h:910:22:LL_GPIO_ResetOutputPin	1
+../Source/BSP/bsp_fan.c:17:6:bsp_fan_init	1
+../Source/BSP/bsp_fan.c:21:6:bsp_fan_on	1
+../Source/BSP/bsp_fan.c:26:6:bsp_fan_off	1
+../Source/BSP/bsp_fan.c:31:6:bsp_fan_toggle	2
+../Source/BSP/bsp_fan.c:40:9:bsp_fan_is_on	1
