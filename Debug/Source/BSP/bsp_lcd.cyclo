@@ -1,7 +1,0 @@
-../Source/BSP/bsp_lcd.c:36:6:bsp_lcd_init	1
-../Source/BSP/bsp_lcd.c:40:6:bsp_lcd_clear	1
-../Source/BSP/bsp_lcd.c:44:6:bsp_lcd_display_on	1
-../Source/BSP/bsp_lcd.c:48:6:bsp_lcd_display_off	1
-../Source/BSP/bsp_lcd.c:52:6:bsp_lcd_print	1
-../Source/BSP/bsp_lcd.c:57:6:bsp_lcd_print_line	1
-../Source/BSP/bsp_lcd.c:61:6:bsp_lcd_print_centered	1

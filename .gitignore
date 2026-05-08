@@ -1,16 +1,16 @@
-# Build outputs
+# Build output folders
 Debug/
 Release/
 build/
 
-# Binary / generated build files
+# Build files
+*.o
+*.d
 *.elf
 *.hex
 *.bin
 *.map
 *.list
-*.o
-*.d
 
 # OS files
 .DS_Store
