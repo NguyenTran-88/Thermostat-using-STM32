@@ -191,6 +191,8 @@ The thermostat has three main states:
 | `S_THERMO_SETPOINT` | Set | `S_THERMO_NORMAL` | Save edited setpoint |
 | Undefined case | Undefined | `S_THERMO_SLEEP` | Return to safe state and turn fan OFF |
 
+![Thermostat FSM Diagram]()
+
 ---
 
 ## 10. Fan Control Algorithm
