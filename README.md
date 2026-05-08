@@ -34,47 +34,7 @@ Main behavior:
 
 ---
 
-## 3. System Requirements
-
-### Functional Requirements
-
-| ID | Requirement | Description |
-|---|---|---|
-| FR1 | Temperature measurement | Read room temperature from the DS18B20 sensor. |
-| FR2 | Temperature display | Display temperature, setpoint, operating mode, and fan status on LCD1602. |
-| FR3 | Setpoint adjustment | Allow the user to adjust the desired setpoint using push buttons. |
-| FR4 | Fan control | Control the cooling fan automatically based on the setpoint. |
-
-### Non-functional Requirements
-
-| ID | Requirement | Description |
-|---|---|---|
-| NFR1 | Sampling period | Request a new temperature sample every 500 ms. |
-| NFR2 | Temperature resolution | Display temperature with 1°C resolution. |
-| NFR3 | Setpoint limitation | Limit the setpoint from 0°C to 70°C. |
-| NFR4 | Safe operation | Keep the fan OFF during initialization, Sleep mode, and invalid sensor data. |
-
----
-
-## 4. Hardware and Simulation Components
-
-The system is simulated in Proteus and includes:
-
-- STM32F401CEU6 microcontroller
-- DS18B20 temperature sensor
-- LCD1602 display
-- Push buttons:
-  - Sleep
-  - Set
-  - Up
-  - Down
-- Cooling fan output
-- Relay/transistor driver circuit for fan control
-- 3.3 V and 5 V power supply blocks
-
----
-
-## 5. Project Structure
+## 3. Project Structure
 
 ```text
 thermostat_final/
@@ -107,7 +67,7 @@ thermostat_final/
 
 ---
 
-## 6. Software Architecture
+## 4. Software Architecture
 
 The software is organized into multiple layers.
 
@@ -122,54 +82,7 @@ The application layer communicates with hardware through BSP APIs instead of dir
 
 ---
 
-## 7. Important BSP APIs
-
-| Module | API | Description |
-|---|---|---|
-| `bsp_button` | `bsp_button_init()` | Clears button event flags and resets debounce timestamps. |
-| `bsp_button` | `bsp_button_get_events()` | Reads pending button events and clears them after reading. |
-| `bsp_ds18b20` | `bsp_ds18b20_init()` | Initializes the DS18B20 interface. |
-| `bsp_ds18b20` | `bsp_ds18b20_request_sample()` | Starts a new non-blocking temperature conversion. |
-| `bsp_ds18b20` | `bsp_ds18b20_process()` | Processes the DS18B20 state machine. |
-| `bsp_ds18b20` | `bsp_ds18b20_get_last_temp_int()` | Gets the latest integer Celsius temperature. |
-| `bsp_lcd` | `bsp_lcd_init()` | Initializes the LCD1602 display. |
-| `bsp_lcd` | `bsp_lcd_print_line()` | Prints a string to a selected LCD line. |
-| `bsp_fan` | `bsp_fan_init()` | Initializes the fan output state. |
-| `bsp_fan` | `bsp_fan_on()` | Turns the cooling fan ON. |
-| `bsp_fan` | `bsp_fan_off()` | Turns the cooling fan OFF. |
-| `bsp_fan` | `bsp_fan_is_on()` | Returns the current fan status. |
-
----
-
-## 8. Application Flow
-
-After system and peripheral initialization, the application initializes the delay module, button module, LCD module, fan module, and DS18B20 sensor.
-
-The main application flow is:
-
-1. Initialize delay function.
-2. Initialize button, LCD, and fan BSP modules.
-3. Set initial state to Sleep mode.
-4. Set default setpoint to 28°C.
-5. Turn the fan OFF for safety.
-6. Initialize the DS18B20 sensor.
-7. Request the first temperature sample if the sensor is ready.
-8. Update the LCD for the first time.
-9. Enter the main loop.
-10. Repeatedly execute the thermostat FSM.
-
-The main loop repeatedly calls:
-
-```c
-app_button_handle(button_event);
-app_sensor_handle();
-app_fan_handle();
-app_lcd_handle();
-```
-
----
-
-## 9. Finite State Machine
+## 5. Finite State Machine
 
 The thermostat has three main states:
 
@@ -201,107 +114,7 @@ The thermostat has three main states:
 
 ---
 
-## 10. Fan Control Algorithm
-
-The thermostat uses a simple ON/OFF control algorithm.
-
-The fan turns ON only when:
-
-```text
-current temperature > setpoint
-```
-
-The fan turns OFF when:
-
-```text
-current temperature <= setpoint
-```
-
-Additional safety conditions:
-
-- The fan is forced OFF in Sleep mode.
-- The fan is forced OFF when temperature data is invalid.
-- The fan is OFF during initialization.
-
-Simplified control logic:
-
-```c
-if ((app_state != S_THERMO_SLEEP) &&
-    (current_temp_valid != 0U) &&
-    (current_temp_c > setpoint_c)) {
-    fan_should_on = 1U;
-}
-else {
-    fan_should_on = 0U;
-}
-```
-
----
-
-## 11. Timing Design
-
-The application requests a new DS18B20 temperature sample every 500 ms.
-
-```c
-#define APP_TEMP_READ_PERIOD_MS 500U
-```
-
-The delay module provides timeout checking through:
-
-```c
-uint8_t DELAY_IsExpired(uint32_t start_tick, uint32_t delay_ms)
-```
-
-The temperature sensor process is designed in a non-blocking style. Instead of waiting inside a long delay during temperature conversion, the application requests a sample and continues running other tasks in the main loop.
-
----
-
-## 12. LCD Display Format
-
-| Mode | LCD Line 1 | LCD Line 2 |
-|---|---|---|
-| Sleep mode | `T:xxC | SLEEP` | `MONITOR ONLY` |
-| Normal mode | `T:xxC | SET:xxC` | `AUTO | FAN:ON/OFF` |
-| Setpoint mode | `T:xxC |>SET:xxC` | `UP/DN | SET=OK` |
-
-If temperature data is invalid, the LCD displays:
-
-```text
-T:--C
-```
-
----
-
-## 13. Button Handling
-
-The system uses four buttons:
-
-| Button | Function |
-|---|---|
-| Sleep | Switch between Sleep mode and Normal mode |
-| Set | Enter or confirm Setpoint mode |
-| Up | Increase setpoint in Setpoint mode |
-| Down | Decrease setpoint in Setpoint mode |
-
-The button module uses event flags:
-
-```c
-#define BSP_BUTTON_EVENT_NONE  0U
-#define BSP_BUTTON_EVENT_SLEEP (1U << 0)
-#define BSP_BUTTON_EVENT_UP    (1U << 1)
-#define BSP_BUTTON_EVENT_DOWN  (1U << 2)
-#define BSP_BUTTON_EVENT_SET   (1U << 3)
-```
-
-A debounce time is applied to reduce false triggers caused by mechanical button bouncing.
-
-```c
-#define BSP_BUTTON_DEBOUNCE_MS 100U
-```
-
----
-
-## 14. Build and Run
+## 6. Build and Run
 
 ### Requirements
 
@@ -337,7 +150,7 @@ File > Import > Existing Projects into Workspace
 
 ---
 
-## 15. Proteus Simulation Test Cases
+## 7. Proteus Simulation Test Cases
 
 | Test Case | Condition | Expected Result | Result |
 |---|---|---|---|
@@ -359,33 +172,8 @@ File > Import > Existing Projects into Workspace
 </p>
 ---
 
-## 16. Limitations
 
-Although the system works correctly in Proteus simulation, there are still some limitations:
-
-- The project was verified only in simulation, not on real hardware.
-- Real hardware issues such as electrical noise, unstable power supply, GPIO signal quality, and wiring problems were not fully evaluated.
-- The fan control uses a simple ON/OFF algorithm without hysteresis.
-- If the temperature fluctuates around the setpoint, the fan may turn ON and OFF frequently.
-- The setpoint is not stored in non-volatile memory, so it returns to the default value after reset or power loss.
-
----
-
-## 17. Future Improvements
-
-Possible improvements include:
-
-- Add hysteresis control to prevent frequent fan switching near the setpoint.
-- Store the user-defined setpoint in Flash memory or EEPROM.
-- Add PWM fan speed control.
-- Add sensor error display on the LCD.
-- Add UART debugging messages.
-- Verify the system on real hardware.
-- Improve the user interface with more display modes or alarm messages.
-
----
-
-## 18. Reference
+## Reference
 
 - nimaltd, “Non-blocking DS18B20 Library for STM32,” GitHub.  
   Available: https://github.com/nimaltd/ds18b20
