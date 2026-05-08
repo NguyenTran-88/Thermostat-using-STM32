@@ -191,7 +191,7 @@ The thermostat has three main states:
 | `S_THERMO_SETPOINT` | Set | `S_THERMO_NORMAL` | Save edited setpoint |
 | Undefined case | Undefined | `S_THERMO_SLEEP` | Return to safe state and turn fan OFF |
 
-![Thermostat FSM Diagram]()
+![Thermostat FSM Diagram](fsm.png)
 
 ---
 
@@ -344,6 +344,7 @@ File > Import > Existing Projects into Workspace
 | TC07 | Set button pressed | System enters or exits Setpoint mode | Pass |
 | TC08 | Sleep button pressed | System changes between Normal and Sleep mode | Pass |
 
+![Proteus Simulation Model](simulate.png)
 ---
 
 ## 16. Limitations
